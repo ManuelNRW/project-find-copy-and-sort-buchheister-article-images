@@ -1,2 +1,2 @@
-# grab_and_sort_buchheister_item_pictures
+# grab and sort buchheister item pictures
 Ein Projekt, um vorsortierte Artikelbilder pro Serie zu graben.
