@@ -13,12 +13,12 @@ Auch ist die Suche nicht case sensitive, berücksichtigt also keine Groß- und K
 
 Beispiel der mathing_phrases.txt:
 
-"
 day and night
 day*night
 134567
 23456789
-"
+
+
 Hier sind drei Keywords hinterlegt. Die letzten beiden Keywords dienen exemplarisch als Artikelnummern.
 
 Wichtig ist, dass die erste Zeile nicht für ein zu suchendes Keyword, sondern zur Anlage des Zielordners dient.
