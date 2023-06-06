@@ -21,7 +21,6 @@ sub Main()
 
     'check destination folder
     call create_destination_folder(destination_path & "\" & input_data(0))
-    
 
     call SearchAlgorithm(destination_path, source_pathes, input_data)
 
@@ -43,6 +42,7 @@ sub SearchAlgorithm(destination_path, source_pathes, input_data)
 
         Set obj_source_pathes = fso_destination.GetFolder(source_pathes(i))
         
+        'loop files in source pathes
         For Each objFile In obj_source_pathes.Files
             
             'loop mathing phrases
