@@ -52,7 +52,7 @@ sub SearchAlgorithm(destination_path, source_pathes, input_data)
 
                 'loop mathing phrases
                 for j = 1 to ubound(input_data)
-
+                    
                     if instr(1, file_name, input_data(j), 1) > 0 then
                         fso_source.copyFile objFile.Path, destination_path & "\" & input_data(0) & "\"
                     end if
