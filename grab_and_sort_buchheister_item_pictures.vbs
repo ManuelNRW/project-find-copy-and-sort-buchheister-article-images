@@ -92,7 +92,7 @@ end function
 
 function LoadDestinationPath()
 
-    filePath = ".\destination_path.txt"
+    filePath = ".\database\destination_path.txt"
 
     Dim fs, f
 
@@ -109,7 +109,7 @@ end function
 
 function LoadSourcePathes()
 
-    filePath = ".\source_path.txt"
+    filePath = ".\database\source_path.txt"
 
     Dim fs, f, lines, i
 
