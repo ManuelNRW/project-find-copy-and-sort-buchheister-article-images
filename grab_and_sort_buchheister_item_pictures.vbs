@@ -1,10 +1,12 @@
 
 call main
 
-
 sub Main()
 
-    dim destination_path, source_pathes, input_data
+    dim destination_path, source_pathes, input_data, user_name
+
+    'get user name
+    user_name = GetUserName()
 
     'load and check destination path
     destination_path = LoadDestinationPath()
@@ -22,14 +24,12 @@ sub Main()
     'check destination folder
     call create_destination_folder(destination_path & "\" & input_data(0))
 
-    call SearchAlgorithm(destination_path, source_pathes, input_data)
+    call SearchAlgorithm(destination_path, source_pathes, input_data, user_name)
 
     msgbox "Fertig!"
 end sub
 
-sub SearchAlgorithm(destination_path, source_pathes, input_data)
-
-    dim file_name
+sub SearchAlgorithm(destination_path, source_pathes, input_data, user_name)
 
     'target folder to objekt
     Set fso_destination = CreateObject("Scripting.FileSystemObject")
@@ -55,6 +55,7 @@ sub SearchAlgorithm(destination_path, source_pathes, input_data)
                     
                     if instr(1, file_name, input_data(j), 1) > 0 then
                         fso_source.copyFile objFile.Path, destination_path & "\" & input_data(0) & "\"
+                        call LogMatch(user_name, destination_path, objFile.Path, input_data(0))
                     end if
 
                 next
@@ -152,4 +153,27 @@ function IsFolderAvailable(folderPath, msg)
         IsFolderAvailable = false
     End If
 
+end function
+
+sub LogMatch(user_name, destination_path, file_name, destination_name)
+
+    ' Erzeuge ein FileSystemObject
+    Dim fso
+    Set fso = CreateObject("Scripting.FileSystemObject")
+
+    ' Öffne die Textdatei im Schreibmodus
+    Dim logfile
+    Set logfile = fso.OpenTextFile(destination_path & "\" & "log_matches.txt" , 8, True)
+
+    ' Füge eine neue Zeile hinzu
+    logfile.WriteLine now() & "|" & user_name  & "|" & right(file_name, len(file_name)-2) & "|" & destination_name
+
+    ' Schließe die Textdatei
+    logfile.Close
+
+end sub
+
+function GetUserName()
+    Set objNetwork = CreateObject("WScript.Network")
+    GetUserName = objNetwork.UserName
 end function
