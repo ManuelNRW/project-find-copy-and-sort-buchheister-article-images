@@ -29,6 +29,8 @@ end sub
 
 sub SearchAlgorithm(destination_path, source_pathes, input_data)
 
+    dim file_name
+
     'target folder to objekt
     Set fso_destination = CreateObject("Scripting.FileSystemObject")
     Set obj_destination_path = fso_destination.GetFolder(destination_path)
@@ -44,15 +46,20 @@ sub SearchAlgorithm(destination_path, source_pathes, input_data)
         
         'loop files in source pathes
         For Each objFile In obj_source_pathes.Files
-            
-            'loop mathing phrases
-            for j = 1 to ubound(input_data)
+            file_name = cstr(objfile.name)
+            'ignore files if not .jpg or .jpeg
+            if right(file_name, 4) = ".jpg" or right(file_name, 5) = ".jpeg" then
 
-                if instr(1, objfile.name, input_data(j), 1) > 0 then
-                    fso_source.copyFile objFile.Path, destination_path & "\" & input_data(0) & "\"
-                end if
+                'loop mathing phrases
+                for j = 1 to ubound(input_data)
 
-            next
+                    if instr(1, file_name, input_data(j), 1) > 0 then
+                        fso_source.copyFile objFile.Path, destination_path & "\" & input_data(0) & "\"
+                    end if
+
+                next
+
+            end if
 
         next
 
