@@ -53,7 +53,7 @@ sub SearchAlgorithm(destination_path, source_pathes, input_data, user_name)
                 'loop mathing phrases
                 for j = 1 to ubound(input_data)
                     
-                    if instr(1, file_name, input_data(j), 1) > 0 then
+                    if is_every_split_in_array(input_data(J), file_name) = true then
                         fso_source.copyFile objFile.Path, destination_path & "\" & input_data(0) & "\"
                         call LogMatch(user_name, destination_path, objFile.Path, input_data(0))
                         exit for
@@ -68,6 +68,25 @@ sub SearchAlgorithm(destination_path, source_pathes, input_data, user_name)
     next
 
 end sub
+
+function is_every_split_in_array(array_to_split, file_name)
+
+    'dim split_array()
+    dim split_match
+
+    split_array = split(array_to_split, "*")
+
+    split_match = true
+    for k = 0 to ubound(split_array)
+        if instr(1, file_name, split_array(k), 1) = 0 then
+            split_match = false
+            exit for
+        end if
+    next
+
+    is_every_split_in_array = split_match
+
+end function
 
 function LoadUserPhrases()
 
