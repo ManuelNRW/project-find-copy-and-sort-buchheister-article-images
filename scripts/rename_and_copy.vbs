@@ -1,36 +1,51 @@
 call rename_and_copy
 
 sub rename_and_copy
-    
-    call create_destination_folder
 
     dim file_Name
-    file_Name = get_random_img_filename()
-
-    call to_current_filename(file_Name)
-
-    call open_picture()
-
     dim img_type
-    img_type = get_img_type()
-    if img_type = "null" then
-        msgbox "Es wurde kein g" & chr(252) & "ltiger Bildtyp angegeben!"
-        exit sub
-    end if
-
     dim img_attr
-    img_attr = get_img_attr(file_Name)
-    if img_attr = "" then
-        msgbox "Es wurde kein g" & chr(252) & "ltiges Bildattribut gesetzt!"
-        exit sub
-    end if
-
     dim img_number
-    img_number = get_img_number(img_type, img_attr)
+    dim loop_result_boolean
+    dim loop_result
 
-    call rename_and_move(img_type & img_number & "_" & img_attr & ".jpg")
+    loop_result_boolean = true
 
-end sub
+    do While loop_result_boolean = true
+    
+        call create_destination_folder
+
+        file_Name = get_random_img_filename()
+
+        if file_Name <> "currentfile.jpg" then call to_current_filename(file_Name)
+
+        call open_picture()
+
+        img_type = get_img_type()
+        if img_type = "null" then
+            msgbox "Es wurde kein g" & chr(252) & "ltiger Bildtyp angegeben!"
+            exit sub
+        end if
+
+        img_attr = get_img_attr(file_Name)
+        if img_attr = "" then
+            msgbox "Es wurde kein g" & chr(252) & "ltiges Bildattribut gesetzt!"
+            exit sub
+        end if
+
+        img_number = get_img_number(img_type, img_attr)
+
+        call rename_and_move(img_type & img_number & "_" & img_attr & ".jpg")
+
+        loop_result = MsgBox("M" & chr(246) & "chten Sie weitermachen?", vbOKCancel)
+
+        If loop_result = vbCancel Then
+            loop_result_boolean = false
+        End If
+
+    loop
+
+    end sub
 
 sub create_destination_folder()
 
@@ -78,16 +93,23 @@ end sub
 
 function get_random_img_filename()
 
-	Set objFSO = CreateObject("Scripting.FileSystemObject")
-	Set objFolder = objFSO.GetFolder(".\")
+    if IsFileAvailable("currentfile.jpg","") = true then
 
-    For Each objFile In objFolder.Files
-		If LCase(Right(objFile.Name, 4)) = ".jpg" Then
-			get_random_img_filename = objFile.Name
-            exit for
-		End If
-	Next
+        get_random_img_filename = "currentfile.jpg"
 
+    else
+
+        Set objFSO = CreateObject("Scripting.FileSystemObject")
+        Set objFolder = objFSO.GetFolder(".\")
+
+        For Each objFile In objFolder.Files
+            If LCase(Right(objFile.Name, 4)) = ".jpg" Then
+                get_random_img_filename = objFile.Name
+                exit for
+            End If
+        Next
+
+    end if
 end function
 
 function get_img_attr(file_Name)
@@ -126,7 +148,6 @@ function get_img_number(img_type, img_attr)
     i = 1
 
     do While IsFileAvailable(".\benannt\" & img_type & i & "_" & img_attr & ".jpg", "") = True
-
         
         i = i + 1
     loop
