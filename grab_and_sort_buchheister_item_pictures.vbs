@@ -2,6 +2,7 @@
 call main
 
 sub Main()
+    msgbox "Die Suche startet im Hintergrund sobald Sie auf 'OK' geklickt haben! Warte, bis die Meldung 'Fertig' erscheint."
 
     dim destination_path, source_pathes, input_data, user_name
 
@@ -25,6 +26,8 @@ sub Main()
     call create_destination_folder(destination_path & "\" & input_data(0))
 
     call SearchAlgorithm(destination_path, source_pathes, input_data, user_name)
+
+    call copy_rename_file(destination_path & "\" & input_data(0))
 
     msgbox "Fertig!"
 end sub
@@ -197,3 +200,9 @@ function GetUserName()
     Set objNetwork = CreateObject("WScript.Network")
     GetUserName = objNetwork.UserName
 end function
+
+
+sub copy_rename_file(destination_path)
+    Set fso = CreateObject("Scripting.FileSystemObject")
+    fso.CopyFile ".\scripts\rename_and_copy.vbs", destination_path & "\" & "rename_and_copy.vbs"
+end sub
