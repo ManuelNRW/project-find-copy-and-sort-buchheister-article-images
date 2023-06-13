@@ -43,6 +43,8 @@ sub rename_and_copy
             loop_result_boolean = false
         End If
 
+        call unload_photo_explorer()
+
     loop
 
     end sub
@@ -114,13 +116,44 @@ end function
 
 function get_img_attr(file_Name)
 
-    get_img_attr = inputbox("Bitte geben Sie die Artikelattribute mit Komma separiert ein. Pfad:"  & chr(10) & file_Name,"Artikelattribute")
+    dim input
+    dim attr
+    attr = ""
+
+    input = inputbox("Anzahl L" & chr(228) & "ufe? Pfad:"  & chr(10) & file_Name,"Anzahl L" & chr(228) & "ufe")
+    if isnumeric(input) = true then
+    input = input & "lauf"
+    end if
+    if input ="" then
+    elseif attr = "" then
+    attr = input
+    else
+    attr = attr & "_" & input
+    end if
+
+    input = inputbox("Farbe? Pfad:"  & chr(10) & file_Name,"Farbe")
+    if input ="" then
+    elseif attr = "" then
+    attr = input
+    else
+    attr = attr & "_" & input
+    end if
+
+    input = inputbox("Bitte geben Sie sonstige Artikelattribute mit Unterstrich separiert ein. Pfad:"  & chr(10) & file_Name,"Sonstige Artikelattribute")
+    if input = "" then
+    elseif attr = "" then
+    attr = input
+    else
+    attr = attr & "_" & input
+    end if
+
+    get_img_attr = attr
 
 end function
 
 function get_img_type()
 
-    img_type = inputbox("Bitte geben Sie den Bildtyp an:" & chr(10) & "1 = Freisteller" & chr(10) & "2 = Detailbild" & chr(10) & "3 = Bema" & chr(223) &  "ung" & chr(10) & "4 = Mileu" & chr(10) & "5 = Sonstiges","Bildtyp")
+    img_type = inputbox("Bitte geben Sie den Bildtyp an:" & chr(10) & "1 = Freisteller" & chr(10) & "2 = Detailbild" & chr(10) & "3 = Bema" & chr(223) &  "ung" & chr(10) & "4 = Mileu" & chr(10) & "5 = Zubeh" & chr(246) & "r" & chr(10) & "6 = Montagebild" & chr(10) & "7 = Sonstiges","Bildtyp")
 
 
     if isnumeric(img_type) = false then
@@ -134,6 +167,10 @@ function get_img_type()
     elseif cint(img_type) = 4 then
     get_img_type = "mileu_"
     elseif cint(img_type) = 5 then
+    get_img_type = "accessories_"
+    elseif cint(img_type) = 6 then
+    get_img_type = "allembly_"
+    elseif cint(img_type) = 7 then
     get_img_type = "_"
     else
     get_img_type = "null"
@@ -168,5 +205,22 @@ end sub
 sub to_current_filename(file_Name)
     Set fso = CreateObject("Scripting.FileSystemObject")
     fso.MoveFile ".\" & file_Name, ".\" & "currentfile.jpg"
+end sub
+
+sub unload_photo_explorer()
+
+    Dim objWMIService, colProcesses, objProcess
+
+    ' Windows-Fotoanzeige-Prozess beenden
+    Set objWMIService = GetObject("winmgmts:{impersonationLevel=impersonate}!\\.\root\cimv2")
+    Set colProcesses = objWMIService.ExecQuery("SELECT * FROM Win32_Process WHERE Name = 'PhotosApp.exe'")
+
+    For Each objProcess In colProcesses
+        objProcess.Terminate()
+    Next
+
+    Set objProcess = Nothing
+    Set colProcesses = Nothing
+    Set objWMIService = Nothing
 end sub
 
