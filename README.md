@@ -1,4 +1,4 @@
-# project find, copy and sort buchherster article images
+# project find, copy and sort buchheister article images
 Finde jpg-Dateien in bestimmten Ordnern, anhand von angegebenen Matching Pattern, und kopiele diese in ein Zielverzeichnis.
 
 In dem database Ordner befinden sich die Dateien destination_path.txt und source_path.txt
