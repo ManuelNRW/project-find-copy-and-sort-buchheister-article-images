@@ -61,7 +61,7 @@ sub SearchAlgorithm(destination_path, source_pathes, input_data, user_name)
                     
                     if is_every_split_in_array(input_data(J), file_name) = true then
                         fso_source.copyFile objFile.Path, destination_path & "\" & input_data(0) & "\"
-                        call LogMatch(user_name, destination_path, objFile.Path, input_data(0))
+                        'call LogMatch(user_name, destination_path, objFile.Path, input_data(0))
                         exit for
                     end if
 
