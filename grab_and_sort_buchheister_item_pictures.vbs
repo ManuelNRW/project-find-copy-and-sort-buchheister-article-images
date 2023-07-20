@@ -177,7 +177,6 @@ function IsFolderAvailable(folderPath, msg)
     Else
         if msg <> "" then msgbox msg
         IsFolderAvailable = false
-        end if
     End If
 
 end function
