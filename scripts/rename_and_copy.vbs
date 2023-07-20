@@ -44,6 +44,7 @@ sub rename_and_copy
         End If
 
         call unload_photo_explorer()
+        call unload_irfan()
 
     loop
 
@@ -214,6 +215,23 @@ sub unload_photo_explorer()
     ' Windows-Fotoanzeige-Prozess beenden
     Set objWMIService = GetObject("winmgmts:{impersonationLevel=impersonate}!\\.\root\cimv2")
     Set colProcesses = objWMIService.ExecQuery("SELECT * FROM Win32_Process WHERE Name = 'PhotosApp.exe'")
+
+    For Each objProcess In colProcesses
+        objProcess.Terminate()
+    Next
+
+    Set objProcess = Nothing
+    Set colProcesses = Nothing
+    Set objWMIService = Nothing
+end sub
+
+sub unload_irfan()
+
+    Dim objWMIService, colProcesses, objProcess
+
+    ' Windows-Fotoanzeige-Prozess beenden
+    Set objWMIService = GetObject("winmgmts:{impersonationLevel=impersonate}!\\.\root\cimv2")
+    Set colProcesses = objWMIService.ExecQuery("SELECT * FROM Win32_Process WHERE Name = 'i_view32.exe'")
 
     For Each objProcess In colProcesses
         objProcess.Terminate()
