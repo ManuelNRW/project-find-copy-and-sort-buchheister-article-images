@@ -17,7 +17,7 @@ sub Main()
     source_pathes = LoadSourcePathes()
     for i = 0 to ubound(source_pathes)
         if IsFolderAvailable(source_pathes(i), "Einer der Quellordner ist nicht vorhanden!") = false then 
-        msgbox source_pathes
+        msgbox source_pathes(i)
         exit sub
         end if
     next
