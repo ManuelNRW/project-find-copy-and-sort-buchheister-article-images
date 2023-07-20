@@ -16,7 +16,10 @@ sub Main()
     'load and check source pathes
     source_pathes = LoadSourcePathes()
     for i = 0 to ubound(source_pathes)
-        if IsFolderAvailable(source_pathes(i), "Einer der Quellordner ist nicht vorhanden!") = false then exit sub
+        if IsFolderAvailable(source_pathes(i), "Einer der Quellordner ist nicht vorhanden!") = false then 
+        msgbox source_pathes
+        exit sub
+        end if
     next
 
     'load input data / user phrases
@@ -174,6 +177,7 @@ function IsFolderAvailable(folderPath, msg)
     Else
         if msg <> "" then msgbox msg
         IsFolderAvailable = false
+        end if
     End If
 
 end function
