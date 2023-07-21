@@ -98,7 +98,7 @@ function LoadUserPhrases()
 
     filePath = ".\matching_phrases.txt"
 
-    Dim fs, f, lines, i
+    Dim fs, f, lines, i, line
 
     Set fs = CreateObject("Scripting.FileSystemObject")
     Set f = fs.OpenTextFile(filePath)
@@ -106,8 +106,12 @@ function LoadUserPhrases()
     ReDim lines(-1)
 
     Do Until f.AtEndOfStream
-        ReDim Preserve lines(UBound(lines) + 1)
-        lines(UBound(lines)) = f.ReadLine()
+        line = f.ReadLine()
+        if line <> "" then
+            ReDim Preserve lines(UBound(lines) + 1)
+            lines(UBound(lines)) = line
+        end if
+
     Loop
 
     f.Close
